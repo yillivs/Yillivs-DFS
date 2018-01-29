@@ -79,15 +79,24 @@ public class Main {
         System.out.println("Please enter how many bags you would like to create.");
         Scanner kb = new Scanner(System.in);
 
-        int bagSize = 0;
+        int bagCount = 0;
         //Ensures the newline is consumed.
         try{
-            bagSize = Integer.parseInt(kb.nextLine());
+            bagCount = Integer.parseInt(kb.nextLine());
         } catch (NumberFormatException e) {
             System.out.println("Provided bag size is not in integer format");
         }
 
-        Bag[] userBags = new Bag[bagSize];
+        Bag[] randomBags = new Bag[bagCount];
+        Bag[] sortedBags = new Bag[bagCount];
+
+        //initialize bag object
+        for(int i = 0; i < bagCount; i++)
+        {
+            randomBags[i] = new Bag();
+            sortedBags[i] = new Bag();
+        }
+
 
     }
 }
