@@ -29,7 +29,6 @@ public class Main {
             buffReader.readLine();
             while((line = buffReader.readLine()) != null)
             {
-                int fieldCount = 0;
                 if(line.trim().length() > 0)
                 {
                     String[] split = line.split(",");
@@ -97,6 +96,14 @@ public class Main {
             sortedBags[i] = new Bag();
         }
 
-
+        int bagIndex = 0;
+        while(randomBags[bagIndex].getCount() < 20)
+        {
+            randomBags[bagIndex].addRandomItem(populatedList);
+            bagIndex++;
+            if(bagIndex == bagCount){
+                bagIndex = 0;
+            }
+        }
     }
 }
