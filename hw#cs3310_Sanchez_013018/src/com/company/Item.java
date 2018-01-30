@@ -1,9 +1,11 @@
 package com.company;
 
+import java.util.Comparator;
+
 /**
  * Defines an Item
  */
-public class Item {
+public class Item implements Comparable<Item>{
     protected String name;
     protected int    minStr;
     protected int    maxStr;
@@ -100,4 +102,30 @@ public class Item {
     public void setCurrStr(int currStr) {
         this.currStr = currStr;
     }
+
+    /**
+     * Permits comparison of object by current strength
+     * @param compareItem comparison object
+     * @return object with highest current Item strength.
+     */
+    @Override
+    public int compareTo(Item compareItem) {
+
+        int compareCurrStr = ((Item)compareItem).getCurrStr();
+
+        return this.currStr - compareCurrStr;
+    }
+
+    /**
+     * Comparator to utilize Arrays.sort for object.
+     */
+    public static Comparator<Item> ItemNameComparator = new Comparator<Item>() {
+        @Override
+        public int compare(Item o1, Item o2) {
+            String itemName1 = o1.getName();
+            String itemName2 = o2.getName();
+
+            return itemName1.compareTo(itemName2);
+        }
+    };
 }

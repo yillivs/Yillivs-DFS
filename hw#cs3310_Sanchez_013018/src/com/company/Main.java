@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -11,9 +12,9 @@ public class Main {
     public static final int LINECONST = 750;
 
     /**
-     *
-     * @param fp
-     * @return
+     * reads in an array of Items from a text document.
+     * @param fp filepath to the document.
+     * @return array of unsorted Items.
      */
     public static Item[] readArray(String fp){
         Item[] list = new Item[LINECONST];
@@ -68,12 +69,28 @@ public class Main {
     }
 
     /**
+     * Creates a shallow copy then sorts the array of Items.
+     * @param _unsortedInventory unsorted Item array
+     * @return sorted Item array
+     */
+    public static Item[] sortArray(Item []_unsortedInventory){
+        Item[] sortedInventory = _unsortedInventory;
+
+        Arrays.sort(sortedInventory, Item.ItemNameComparator);
+
+        for(int i = 0; i < LINECONST; i++)
+            System.out.println(sortedInventory[i].getName());
+
+        return sortedInventory;
+    }
+    /**
      *
      * @param args
      */
     public static void main(String[] args) {
         String filepath = "weapons.txt";
-        Item[] populatedList = readArray(filepath);
+        Item[] unsortedList = readArray(filepath);
+        Item[] sortedList;
 
         System.out.println("Please enter how many bags you would like to create.");
         Scanner kb = new Scanner(System.in);
@@ -99,11 +116,14 @@ public class Main {
         int bagIndex = 0;
         while(randomBags[bagIndex].getCount() < 20)
         {
-            randomBags[bagIndex].addRandomItem(populatedList);
+            randomBags[bagIndex].addRandomItem(unsortedList);
             bagIndex++;
             if(bagIndex == bagCount){
                 bagIndex = 0;
             }
         }
+
+        sortedList = sortArray(unsortedList);
+
     }
 }
