@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class BagUtility {
     protected Item[] inventory;
@@ -75,5 +78,78 @@ public class BagUtility {
             System.out.println("IOException");
         }
         inventory = list;
+    }
+    
+    /**
+     * Creates a shallow copy then sorts the array of Items.
+     * @return sorted Item array
+     */
+    public void sortArray(Bag[] bagInv){
+        int itemListLen = bagInv.length * 20;
+        Item[] bagInventory = new Item[itemListLen];
+        for(int i = 0; i < bagInv.length; i++)
+        {
+            for(int j = 0; j < 20; j++)
+            {
+                bagInventory[(i*20)+j] = bagInv[i].getContents()[j];
+            }
+        }
+        Arrays.sort(bagInventory, Item.ItemNameComparator);
+
+        for(int i = 0; i < bagInv.length; i++)
+        {
+            for(int j = 0; j < 20; j++)
+            {
+                bagInv[i].setContnetsAt(bagInventory[(i*20)+j], j);
+            }
+        }
+    }
+
+    /**
+     * performs linear search on a random item from the inventory array.
+     * @param srcBags Bag array to perform search in.
+     */
+    public void randomLinearSearch(Bag[] srcBags){
+        Random rand = new Random();
+        int randomPos = (rand.nextInt((inventory.length - 1) - 0) + 1);
+        System.out.println("Linear search for: " +
+                inventory[randomPos].getRarity() + " " + inventory[randomPos].getName());
+        for(int i = 0; i < srcBags.length; i++)
+        {
+            ArrayList<Integer> bagPos = new ArrayList<>();
+            ArrayList<Integer> searchItemCurrStr = new ArrayList<>();
+            bagPos = srcBags[i].linearSearch(inventory[randomPos], searchItemCurrStr);
+            if(!bagPos.isEmpty())
+            {
+               System.out.println("Bag #: " + i + "\nSlot #:");
+               for(int j = 0; j < bagPos.size(); j++)
+               {
+                   System.out.print(bagPos.get(j) + " Curr. Strength: "+ searchItemCurrStr.get(j));
+               }
+               System.out.println();
+            }
+        }
+    }
+
+    public void randomBinarySearch(Bag[] srcBags){
+         Random rand = new Random();
+        int randomPos = (rand.nextInt((inventory.length - 1) - 0) + 1);
+        System.out.println("Binary search for: " +
+                inventory[randomPos].getRarity() + " " + inventory[randomPos].getName());
+        for(int i = 0; i < srcBags.length; i++)
+        {
+            ArrayList<Integer> bagPos = new ArrayList<>();
+            srcBags[i].binarySearch(inventory[randomPos], bagPos);
+
+            if(!bagPos.isEmpty())
+            {
+               System.out.println("Bag #: " + i + "\nSlot #:");
+               for(int j = 0; j < bagPos.size(); j++)
+               {
+                   System.out.print(bagPos.get(j));
+               }
+               System.out.println();
+            }
+        }
     }
 }

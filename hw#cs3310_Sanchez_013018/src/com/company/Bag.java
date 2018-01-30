@@ -1,6 +1,5 @@
 package com.company;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +19,9 @@ public class Bag {
         count = 0;
     }
 
+    public void setContnetsAt(Item _item, int index){
+        contents[index] = _item;
+    }
     /**
      * Bag contents attribute setter.
      * @param contents array of Items.
@@ -51,7 +53,10 @@ public class Bag {
      */
     public void addRandomItem(Item[] unsortedInv){
         Random rand = new Random();
-        contents[count] = unsortedInv[rand.nextInt((unsortedInv.length - 0) +1)];
+        contents[count] = unsortedInv[rand.nextInt(((unsortedInv.length - 1) - 0) +1)];
+        int currStrBound = rand.nextInt(((contents[count].getMaxStr() - contents[count].getMinStr()) + 1)
+                + contents[count].getMinStr());
+        contents[count].setCurrStr(currStrBound);
         count++;
     }
 
@@ -60,14 +65,18 @@ public class Bag {
      * @param _item Item to linear search bag for.
      * @return position List with positions of item occurrences.
      */
-    public ArrayList<Integer> linearSearch(Item _item){
+    public ArrayList<Integer> linearSearch(Item _item, ArrayList<Integer>_searchCurrStr){
         ArrayList<Integer> position = new ArrayList<>();
+        String searchName = _item.getName();
+        String searchRarity = _item.getRarity();
 
         for(int i = 0; i < contents.length; i++)
         {
-            if(contents[i].equals(_item))
+            if(contents[i].getName().equalsIgnoreCase(searchName) &&
+                    contents[i].getRarity().equalsIgnoreCase(searchRarity))
             {
                 position.add(i);
+                _searchCurrStr.add(contents[i].getCurrStr());
             }
         }
 
@@ -77,7 +86,31 @@ public class Bag {
     /**
      *
      */
-    public void binaryRandomSearch(){
+    public int binarySearch(Item _item, ArrayList<Integer> pos){
+        return binarySearch(_item, 0, contents.length-1, pos);
+    }
 
+    public int binarySearch(Item _item, int min, int max, ArrayList<Integer> pos){
+        if(min > max)
+            return -1;
+
+
+        int mid = (max + min) / 2;
+        String searchName = _item.getName();
+        String searchRarity = _item.getRarity();
+        if(contents[mid].getName().equalsIgnoreCase(searchName) &&
+                contents[mid].getRarity().equalsIgnoreCase(searchRarity))
+        {
+            pos.add(mid);
+            return mid;
+        }
+        else if(contents[mid].getName().compareTo(searchName) > 0)
+        {
+            return binarySearch(_item, min, mid-1, pos);
+        }
+        else
+        {
+            return binarySearch(_item, mid+1, max, pos);
+        }
     }
 }
