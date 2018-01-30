@@ -1,5 +1,7 @@
 package com.company;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -51,5 +53,31 @@ public class Bag {
         Random rand = new Random();
         contents[count] = unsortedInv[rand.nextInt((unsortedInv.length - 0) +1)];
         count++;
+    }
+
+    /**
+     * Performs linear search of the bag for a random item from srcInv.
+     * @param _item Item to linear search bag for.
+     * @return position List with positions of item occurrences.
+     */
+    public ArrayList<Integer> linearSearch(Item _item){
+        ArrayList<Integer> position = new ArrayList<>();
+
+        for(int i = 0; i < contents.length; i++)
+        {
+            if(contents[i].equals(_item))
+            {
+                position.add(i);
+            }
+        }
+
+        return position;
+    }
+
+    /**
+     *
+     */
+    public void binaryRandomSearch(){
+
     }
 }
