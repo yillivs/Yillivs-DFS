@@ -19,7 +19,12 @@ public class Bag {
         count = 0;
     }
 
-    public void setContnetsAt(Item _item, int index){
+    /**
+     * Sets contents at a particular index
+     * @param _item src item
+     * @param index src index
+     */
+    public void setContentsAt(Item _item, int index){
         contents[index] = _item;
     }
     /**
@@ -63,6 +68,7 @@ public class Bag {
     /**
      * Performs linear search of the bag for a random item from srcInv.
      * @param _item Item to linear search bag for.
+     * @param _searchCurrStr list of current strength
      * @return position List with positions of item occurrences.
      */
     public ArrayList<Integer> linearSearch(Item _item, ArrayList<Integer>_searchCurrStr){
@@ -84,13 +90,26 @@ public class Bag {
     }
 
     /**
-     *
+     * Overloaded recursive binary search
+     * @param _item item to be searched for
+     * @param pos list that stores positions in bag which the item is found
+     * @param _currStr list which stores items current strength.
+     * @return index if found, -1 otherwise.
      */
-    public int binarySearch(Item _item, ArrayList<Integer> pos){
-        return binarySearch(_item, 0, contents.length-1, pos);
+    public int binarySearch(Item _item, ArrayList<Integer> pos, ArrayList<Integer> _currStr){
+        return binarySearch(_item, 0, contents.length-1, pos, _currStr);
     }
 
-    public int binarySearch(Item _item, int min, int max, ArrayList<Integer> pos){
+    /**
+     *
+     * @param _item item to be searched for
+     * @param min minimum item index
+     * @param max maximum item index
+     * @param pos list that stores positions in bag which the item is found
+     * @param _currStr list which stores items current strength.
+     * @return index if found, -1 otherwise.
+     */
+    public int binarySearch(Item _item, int min, int max, ArrayList<Integer> pos, ArrayList<Integer> _currStr){
         if(min > max)
             return -1;
 
@@ -102,15 +121,26 @@ public class Bag {
                 contents[mid].getRarity().equalsIgnoreCase(searchRarity))
         {
             pos.add(mid);
+            _currStr.add(contents[mid].getCurrStr());
             return mid;
         }
         else if(contents[mid].getName().compareTo(searchName) > 0)
         {
-            return binarySearch(_item, min, mid-1, pos);
+            return binarySearch(_item, min, mid-1, pos, _currStr);
         }
         else
         {
-            return binarySearch(_item, mid+1, max, pos);
+            return binarySearch(_item, mid+1, max, pos, _currStr);
+        }
+    }
+
+    /**
+     * Prints first five items from bag.
+     */
+    public void printBag(){
+        for(int i = 0; i < 5; i++)
+        {
+            System.out.println(contents[i].getRarity() + " " + contents[i].getName() + "," + contents[i].getCurrStr());
         }
     }
 }
