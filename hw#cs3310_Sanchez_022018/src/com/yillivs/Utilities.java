@@ -1,10 +1,10 @@
 package com.yillivs;
 
+/**
+ * Utility class
+ */
 public class Utilities {
 
-    public Utilities(){
-
-    }
 
     public void demo(){
         MyLLQueue tst = new MyLLQueue();

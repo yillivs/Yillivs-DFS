@@ -1,15 +1,25 @@
 package com.yillivs;
 
+/**
+ * Linked list implementation based on MyNode
+ */
 public class MyLinkList {
     private MyNode head;
     private MyNode tail;
     private int listSize;
 
+    /**
+     * Constructor
+     */
     public MyLinkList(){
         head = null;
         tail = null;
     }
 
+    /**
+     * Inserts a value at the end of the list.
+     * @param val value to be inserted.
+     */
     public void insertAtTail(int val) {
         MyNode curr = head;
 
@@ -26,6 +36,9 @@ public class MyLinkList {
         listSize++;
     }
 
+    /**
+     * Delete value from the end of the list.
+     */
     public void deleteFromTail(){
         if((head == null) || (tail == null))
         {
